@@ -40,8 +40,96 @@ An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
 
 From within the root directory:
 
+## Building out CRUD operations
+
+## Create
+POST '/api/listings/'
+
+Request Body: Expects JSON with the following keys
+  {"fees": {
+      "pernight": integer,
+      "cleaning": integer,
+      "service":  integer
+    },
+    "reserved": array of dates where index = 0 is checkin and index=array.length-1 is checkout,
+
+    "id": integer, Required Unique,
+    "owner": String ,
+    "name": String name of listing,
+    }
+returns: nothing
+
+Status codes
+201: Successfully creates new booking
+400: Unsuccessful attempt at creating booking due to client error
+
+## Read
+GET /api/listings/:id
+Path Parameters
+  id - listing id: integer, Required
+
+returns: JSON
+[
+  {
+    "fees": {
+      "pernight": 141,
+      "cleaning": 23,
+      "service": 10
+    },
+    "reserved": [],
+    "_id": "5fc6cc35a8e0a2acea7ca2ad",
+    "id": 0,
+    "owner": "Jordan Wilderman",
+    "name": "Bernier, Dooley and Dickens Grocery Manors",
+    "__v": 0
+  }
+]
+
+Status codes
+200: Successfully retrieves booking information
+404: Unsuccessful attempt due to missing resource
+
+## Update
+PUT '/api/listings/:id/'
+Path Parameters
+  id - listing id: integer, Required
+
+Request Body
+Expects JSON with any of the following keys (include only keys to be updated)
+  {
+    "fees": {
+      "pernight": 141,
+      "cleaning": 23,
+      "service": 10
+    },
+    "reserved": [],
+    "_id": "5fc6cc35a8e0a2acea7ca2ad",
+    "id": 0,
+    "owner": "Jordan Wilderman",
+    "name": "Bernier, Dooley and Dickens Grocery Manors",
+    "__v": 0
+  }
+
+Status codes
+201: Category successfully update
+400: Unsuccessful attempt at updating record
+
+## Delete
+DELETE '/api/listings/:id/'
+Path Parameters
+  id - listing id: integer, Required
+
+Returns
+Nothing
+
+Status codes
+201: Category successfully deleted record
+400: Unsuccessful attempt at deleting record
+
+
 ```sh
 npm install
 npm run seed
 npm run server
 npm run build
+

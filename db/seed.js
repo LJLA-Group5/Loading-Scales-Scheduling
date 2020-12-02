@@ -14,7 +14,7 @@ const seedDatabase = (entryCount) => {
     .catch((err) => console.error(err));
 };
 
-seedDatabase(100)
+seedDatabase(1)
   .then(() => mongoose.disconnect())
   .then(() => console.log('Disconnected'));
 

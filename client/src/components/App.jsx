@@ -48,12 +48,12 @@ function App() {
   }
   useEffect(() => {
     getListingData();
-  }, []);
+  }, []); //empty array tells us when useEffect is called (once)
   useEffect(() => {
     if (checkingDatesSet) {
       setCheckingBool(false);
     }
-  }, [checkingDatesSet]);
+  }, [checkingDatesSet]); //every time checkingDateSet's state gets changed run useffect
   const dateSelectionProps = {
     checkingDates: [checkInDate, checkOutDate],
     setCheckInDate,
