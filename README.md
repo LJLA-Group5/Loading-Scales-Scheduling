@@ -51,11 +51,29 @@ Request Body: Expects JSON with the following keys
       "cleaning": integer,
       "service":  integer
     },
-    "reserved": array of dates where index = 0 is checkin and index=array.length-1 is checkout,
-
+    "reserved": []
     "id": integer, Required Unique,
-    "owner": String ,
+    "userID": integer, Required
     "name": String name of listing,
+    }
+returns: nothing
+
+Status codes
+201: Successfully creates new listing
+400: Unsuccessful attempt at creating listing due to client error
+
+POST '/api/listings/reservations'
+
+Request Body: Expects JSON with the following keys
+  {
+    "id": integer, Required Unique,
+    "adults": integer,
+    "children": integer,
+    "infants":integer,
+    "checkIn":date,
+    "checkOut":date,
+    "userID": integer, Required
+    "listingID": integer, Required
     }
 returns: nothing
 
@@ -71,18 +89,35 @@ Path Parameters
 returns: JSON
 [
   {
-    "fees": {
-      "pernight": 141,
-      "cleaning": 23,
-      "service": 10
-    },
-    "reserved": [],
+    "pernight": 141,
+    "cleaning": 23,
+    "service": 10
+
+    "reserved": [array of reservation objects],
     "_id": "5fc6cc35a8e0a2acea7ca2ad",
     "id": 0,
     "owner": "Jordan Wilderman",
     "name": "Bernier, Dooley and Dickens Grocery Manors",
     "__v": 0
   }
+]
+
+GET /api/listings/reservations/:id
+Path Parameters
+  id - reservation id: integer, Required
+
+returns: JSON
+[
+   {
+    "id": integer, Required Unique,
+    "adults": integer,
+    "children": integer,
+    "infants":integer,
+    "checkIn":date,
+    "checkOut":date,
+    "userID": integer, Required
+    "listingID": integer, Required
+    }
 ]
 
 Status codes
@@ -96,19 +131,16 @@ Path Parameters
 
 Request Body
 Expects JSON with any of the following keys (include only keys to be updated)
-  {
-    "fees": {
-      "pernight": 141,
-      "cleaning": 23,
-      "service": 10
+   {"fees": {
+      "pernight": integer,
+      "cleaning": integer,
+      "service":  integer
     },
-    "reserved": [],
-    "_id": "5fc6cc35a8e0a2acea7ca2ad",
-    "id": 0,
-    "owner": "Jordan Wilderman",
-    "name": "Bernier, Dooley and Dickens Grocery Manors",
-    "__v": 0
-  }
+    "reserved": []
+    "id": integer, Required Unique,
+    "userID": integer, Required
+    "name": String name of listing,
+    }
 
 Status codes
 201: Category successfully update
@@ -123,10 +155,19 @@ Returns
 Nothing
 
 Status codes
-201: Category successfully deleted record
-400: Unsuccessful attempt at deleting record
+201: Category successfully deleted listing
+400: Unsuccessful attempt at deleting listing
 
+DELETE '/api/listings/reservations/:id/'
+Path Parameters
+  id - reservation id: integer, Required
 
+Returns
+Nothing
+
+Status codes
+201: Category successfully deleted reservation
+400: Unsuccessful attempt at deleting reservation
 ```sh
 npm install
 npm run seed
