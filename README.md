@@ -51,8 +51,8 @@ Request Body: Expects JSON with the following keys
       "cleaning": integer,
       "service":  integer
     },
-    "reserved": []
-    "id": integer, Required Unique,
+
+    "listing_id": integer, Required Unique,
     "userID": integer, Required
     "name": String name of listing,
     }
@@ -62,11 +62,11 @@ Status codes
 201: Successfully creates new listing
 400: Unsuccessful attempt at creating listing due to client error
 
-POST '/api/listings/reservations'
+POST '/api/listings/:listingID'
 
 Request Body: Expects JSON with the following keys
   {
-    "id": integer, Required Unique,
+    <!-- "Reservation_id": integer, Required Unique, -->
     "adults": integer,
     "children": integer,
     "infants":integer,
@@ -82,27 +82,27 @@ Status codes
 400: Unsuccessful attempt at creating booking due to client error
 
 ## Read
-GET /api/listings/:id
+GET /api/listings/:listing_id
 Path Parameters
   id - listing id: integer, Required
 
 returns: JSON
 [
   {
-    "pernight": 141,
-    "cleaning": 23,
-    "service": 10
+    "pernight": int,
+    "cleaning": int,
+    "service": int,
 
     "reserved": [array of reservation objects],
-    "_id": "5fc6cc35a8e0a2acea7ca2ad",
-    "id": 0,
+
+    "Listing_id": 0,
     "owner": "Jordan Wilderman",
     "name": "Bernier, Dooley and Dickens Grocery Manors",
-    "__v": 0
+
   }
 ]
 
-GET /api/listings/reservations/:id
+GET /api/listings/reservations/:reservationID
 Path Parameters
   id - reservation id: integer, Required
 
@@ -125,7 +125,7 @@ Status codes
 404: Unsuccessful attempt due to missing resource
 
 ## Update
-PUT '/api/listings/:id/'
+PUT '/api/listings/:listingID'
 Path Parameters
   id - listing id: integer, Required
 
@@ -137,7 +137,7 @@ Expects JSON with any of the following keys (include only keys to be updated)
       "service":  integer
     },
     "reserved": []
-    "id": integer, Required Unique,
+    "Listing_id": integer, Required Unique,
     "userID": integer, Required
     "name": String name of listing,
     }
@@ -147,7 +147,7 @@ Status codes
 400: Unsuccessful attempt at updating record
 
 ## Delete
-DELETE '/api/listings/:id/'
+DELETE '/api/listings/:listingID'
 Path Parameters
   id - listing id: integer, Required
 
@@ -158,7 +158,7 @@ Status codes
 201: Category successfully deleted listing
 400: Unsuccessful attempt at deleting listing
 
-DELETE '/api/listings/reservations/:id/'
+DELETE '/api/listings/reservations/:reservationID'
 Path Parameters
   id - reservation id: integer, Required
 
@@ -174,3 +174,6 @@ npm run seed
 npm run server
 npm run build
 
+# tasks
+#   figure out if you need to POST a listing because you should only really need to      post  a reservation
+#   fix routs to identify specfic ID's
