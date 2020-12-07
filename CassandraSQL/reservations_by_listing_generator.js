@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const helpers = require('./helpers.js');
-
+require('events').EventEmitter.defaultMaxListeners = 1000000;
 // // 100m reviews
 const reservationsStream = fs.createWriteStream(path.join(__dirname, '/data/cass_reservations_by_listingId_data.csv'));
 reservationsStream.write(
@@ -28,4 +28,4 @@ function reservationsByListing(numberOfListings) {
   if (numberOfListings > 0) reservationsByListing(numberOfListings - 1);
 }
 
-reservationsByListing(100);
+reservationsByListing(1000);
