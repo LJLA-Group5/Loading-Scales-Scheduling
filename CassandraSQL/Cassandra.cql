@@ -2,16 +2,19 @@
 CREATE KEYSPACE IF NOT EXISTS Listings WITH replication =
   {'class': 'SimpleStrategy', 'replication_factor' : 1};
 
-CREATE TABLE Listings.ID (
-    Listing_id INT ,
-    Listing_name text,
-    Listing_perNight INT,
-    Listing_cleaning INT,
-    Listing_service INT,
-    Owner_id INT,
-    Owner_name text,
 
-   PRIMARY KEY(Listing_id))
+CREATE TABLE Listings.ID (
+    listings_id INT ,
+    listing_name text,
+    owner text,
+    owner_id INT,
+    maxStay INT,
+    maxGuests INT,
+    listing_perNight INT,
+    listing_cleaning INT,
+    listing_service INT,
+
+   PRIMARY KEY(listing_id))
    WITH comment = 'Q1. Find Listings given ListingId';
 
 
