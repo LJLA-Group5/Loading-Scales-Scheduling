@@ -32,5 +32,5 @@ function reservationsByListing(numberOfListings, counter) {
   if (numberOfListings > 0) reservationsByListing(numberOfListings - 1, counter);
 }
 
-reservationsByListing(1000, 1);
+reservationsByListing(10000000, 1);
 console.log('end');

@@ -4,17 +4,18 @@ const listingsTable = `
   DROP TABLE IF EXISTS reservations;
   DROP TABLE IF EXISTS listings;
   CREATE TABLE Listings (
-    listing_id SERIAL  PRIMARY KEY NOT NULL,
-    listing_name VARCHAR(100),
-    listing_perNight INT,
-    listing_cleaning INT,
-    listing_service INT,
-    user_id INT references users(user_id) NOT NULL
+    name VARCHAR(100),
+    maxStay INT,
+    maxGuests INT,
+    feePerNight INT,
+    feeCleaning INT,
+    feeService INT,
+    owner INT
  );
 `;
 
 const importData = `
-  COPY listings (listing_id,listing_name,listing_perNight,listing_cleaning,listing_service,user_id)
+  COPY listings (name,maxStay,maxGuests,feePerNight,feeCleaning,feeService,owner)
   FROM '${process.env.PG_LISTINGS_DATA}'
   DELIMITER ','
   CSV HEADER;

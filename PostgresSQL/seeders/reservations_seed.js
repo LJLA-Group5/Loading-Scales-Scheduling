@@ -3,20 +3,19 @@ const seed = require('./psql.js');
 const reservationsTable = `
   DROP TABLE IF EXISTS reservations;
   CREATE TABLE reservations (
-    reservation_id SERIAL  PRIMARY KEY NOT NULL,
-    listing_id INT references listings(listing_id),
-    reservation_checkin VARCHAR(100),
-    reservation_checkout VARCHAR(100),
-    reservation_adults INT,
-    reservation_children INT,
-    reservation_infant INT,
-    reservation_totalCost NUMERIC(8, 2),
-    user_id INT references users(user_id)
+    checkInDate VARCHAR(100),
+    checkOutDate VARCHAR(100),
+    adults INT,
+    children INT,
+    infants INT,
+    totalCost NUMERIC(8, 2),
+    listing_id INT,
+    user_id INT
   );
 `;
 
 const importData = `
-  COPY reservations (reservation_id,listing_id,reservation_checkin,reservation_checkout,reservation_adults,reservation_children,reservation_infant,reservation_totalCost,user_id  )
+  COPY reservations (checkInDate,checkOutDate,adults,children,infants,totalCost,listing_id,user_id )
   FROM '${process.env.PG_RESERVATIONS_DATA}'
   DELIMITER ','
   CSV HEADER;

@@ -21,7 +21,7 @@ const makeListing = (id) => {
   return listinginfo;
 };
 
-const makeReservations = (listing, reservationNumber, startDate) => {
+const makeReservations = (reservationNumber, startDate) => {
   let checkin = startDate; // taken all from schema
   const allReservations = [];
   Date.prototype.addDays = function (days) {
@@ -29,15 +29,14 @@ const makeReservations = (listing, reservationNumber, startDate) => {
     date.setDate(date.getDate() + days);
     return date;
   };
-
+  const listingsId = randomNum(10000000);
   for (let i = 0; i < reservationNumber; i++) {
     const stay = randomNum(7);
     const reservation = { // add to  checkindate
-      listing: listing.id,
+      listing: listingsId,
       adults: randomNum(3) + 1,
       children: randomNum(2) + 1,
-      infants: randomNum(2) + 1,
-      totalCost: (listing.perNight * stay) + listing.cleaning + listing.service, // in case listing gets updated
+      infants: randomNum(2) + 1, // in case listing gets updated
       guestId: randomNum(10000),
       checkin,
       checkout: checkin.addDays(stay),
