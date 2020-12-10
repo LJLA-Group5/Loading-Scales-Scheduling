@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
@@ -16,30 +17,40 @@ listingsWriter.write('name,maxStay,maxGuests,feePerNight,feeCleaning,feeService,
 const reservationsWriter = fs.createWriteStream(path.join(__dirname, '../data/postgres_reservations_data.csv'));
 reservationsWriter.write('checkInDate,checkOutDate,adults,children,infants,totalCost,listing_id,user_id\n');
 
+//grabn random numbers
 const random = (num, skew = 1) => (
   Math.floor(Math.random() ** skew * num)
 );
 
+//create check in check out dates in format
 const addDays = (date, days) => {
   const day = new Date(date);
   const result = new Date(day.setDate(day.getDate() + days));
   return result.toISOString().substring(0, 10);
 };
 
+//generate all users //takes in number of users, user stream, and callback which is write.end
 const dataGenUser = (i, writer, callback) => {
   function write() {
+    //need ok to check if need to drain
     let ok = true;
     do {
+      //decrement number of users
       i -= 1;
       const name = faker.name.findName();
       const data = `${name}\n`;
+      //base case once number of users hit 0 write the last one and then end with callback
       if (i === 0) {
         writer.write(data, callback);
       } else {
+        //write to csv
         ok = writer.write(data);
       }
+      //follows format do everything above while this statement is true
     } while (i > 0 && ok);
     if (i > 0) {
+      //if ok is false meaning write stream came back false and theres still users to write
+      //drain the stack then continue write function
       writer.once('drain', write);
     }
   }
@@ -47,8 +58,9 @@ const dataGenUser = (i, writer, callback) => {
 };
 
 // listingInfo = {id, name, maxStay, maxGuests, feePerNight, feeCleaning, feeService, owner}
+//create reservations //need reviewamount = number of reservations to make, start dat to keep track of checkin, listing info to keep track of listin id
 const dataGenReservations = (reviewAmount, startDate, listingInfo) => {
-  let checkin = startDate;
+  let checkin = startDate; //check in date
   let checkout;
   let maxGuests;
   let adults;
@@ -58,9 +70,10 @@ const dataGenReservations = (reviewAmount, startDate, listingInfo) => {
   let stayLength;
   let totalCost;
 
-  let i = reviewAmount;
-  let bookings = '';
+  let i = reviewAmount; //number of reservations to make
+  let bookings = ''; //instead of returning an array, return a string with multiple lines that we can werite to csv
 
+  //while number of reservations is not 0 create reservations as a line and store it inside bookings string
   do {
     i -= 1;
     checkin = addDays(checkin, random(7) + 1);
@@ -80,9 +93,14 @@ const dataGenReservations = (reviewAmount, startDate, listingInfo) => {
     bookings += data;
   } while (i > 0);
 
-  return bookings;
+  return bookings; //return bookings -> 'res1/n res2/n'
 };
 
+//generate listings
+//write listings to csv
+//use listings to generate reservations
+//write reservations to csv after return string comesback
+//move on to next listing
 const dataGenListings = (i, writer, callback) => {
   // let reservationId = 0;
   let reviewAmount;

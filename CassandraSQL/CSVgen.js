@@ -9,9 +9,9 @@ const faker = require('faker');
 const path = require('path');
 
 const listingsWriter = fs.createWriteStream(path.join(__dirname, '/data/cass_listing_data.csv'));
-listingsWriter.write('listings_id,listing_name,owner,owner_id,maxStay,maxGuests,fees\n');
+listingsWriter.write('listings_id,listing_name,owner,owner_id,maxStay,maxGuests,feePerNight,feeCleaning,feeService\n');
 const reservationsWriter = fs.createWriteStream(path.join(__dirname, '/data/cass_reservations_data.csv'));
-reservationsWriter.write('reservation_id,listing_id,user_id,checkInDate,checkOutDate,guests,totalCost\n');
+reservationsWriter.write('reservation_id,listing_id,user_id,checkInDate,checkOutDate,adults,children,infants,totalCost\n');
 
 const random = (num, skew = 1) => (
   Math.floor(Math.random() ** skew * num)
@@ -34,13 +34,12 @@ const dataGenReservations = (startingId, reviewAmount, startDate, listingInfo) =
   let guestId;
   let stayLength;
   let totalCost;
-
   let i = reviewAmount;
   let id = startingId;
   let bookings = '';
   do {
-    if (id % 1000000 === 0) {
-      console.log(id, '+1000000 into reservations');
+    if (id % 5000000 === 0) {
+      console.log(id, '+5000000 into reservations');
     }
     i -= 1;
     id += 1;
