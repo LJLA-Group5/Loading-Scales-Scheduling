@@ -46,3 +46,32 @@ ailpupdb-#   WHERE listings.id=50000;
 (END)
 
 
+##AFTER INDEX
+ailpupdb=# EXPLAIN ANALYZE
+ailpupdb-# SELECT *
+ailpupdb-#   FROM listings INNER JOIN reservations ON (listings.id=reservations.listing_id)
+ailpupdb-#   WHERE listings.id=50000;
+                                                            QUERY PLAN
+----------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop  (cost=0.87..17.82 rows=34 width=90) (actual time=1.429..1.443 rows=1 loops=1)
+   ->  Index Scan using listings_pkey on listings  (cost=0.43..8.45 rows=1 width=38) (actual time=0.802..0.814 rows=1 loops=1)
+         Index Cond: (id = 50000)
+   ->  Index Scan using listing_idx on reservations  (cost=0.44..9.03 rows=34 width=52) (actual time=0.426..0.428 rows=1 loops=1)
+         Index Cond: (listing_id = 50000)
+ Planning Time: 1.322 ms
+ Execution Time: 1.534 ms
+(7 rows)
+
+Time: 5.224 ms
+ailpupdb=#
+SELECT *
+  FROM listings INNER JOIN reservations ON (listings.id=reservations.listing_id)
+  WHERE listings.id=50000;
+     name     | maxstay | maxguests | feepernight | feecleaning | feeservice | owner |  id   | checkindate | checkoutdate | adults | children | infants | totalcost | listing_id | user_id |    id
+--------------+---------+-----------+-------------+-------------+------------+-------+-------+-------------+--------------+--------+----------+---------+-----------+------------+---------+----------
+ quidem velit |      23 |        12 |         283 |          83 |         16 | 74841 | 50000 | 2020-12-15  | 2021-01-05   |      5 |        0 |       5 |   6767.04 |      50000 |  813627 | 28055717
+(1 row)
+
+
+
+--SELECT count(*) AS exact_count FROM users; gets numbers of rows in table
