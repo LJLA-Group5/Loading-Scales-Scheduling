@@ -15,7 +15,10 @@
     "testBackend": "jest --config ./tests/backend/jestBackend.config.js",
     "testFrontend": "jest --config ./tests/frontend/jestFrontend.config.js",
     "tests": "jest",
-    "docker": "node ./server/server.js"
+    "docker": "node ./server/server.js",
+    "generate": "node ./PostgresSQL/generators/CSVgen.js",
+    "seed_users": "node ./PostgresSQL/seeders/users_seed.js",
+    "seed_listings": "node ./PostgresSQL/seeders/listings_seed.js", "seed_reservations": "node ./PostgresSQL/seeders/reservations_seed.js"
   },
   "dependencies": {
     "axios": "^0.21.0",

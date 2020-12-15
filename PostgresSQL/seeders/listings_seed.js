@@ -23,8 +23,8 @@ const importData = `
 
 seed('listings', listingsTable, importData);
 
-async function seedListings() {
-  await seed('listings', listingsTable, importData);
-}
+// async function seedListings() {
+//   await seed('listings', listingsTable, importData);
+// }
 
 module.exports = seedListings;
