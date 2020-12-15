@@ -25,13 +25,13 @@ app.use(morgan('dev'));
 app.use('/', express.json());
 app.use('/listings/:id', express.static(path.join(__dirname, '..', 'client', 'dist')));
 
-// app.get('/api/listings/', (req, res) => {
-//   Helpers.listingModel.find()
-//     .then((listings) => {
-//       res.header('Content-Type', 'application/json');
-//       res.send(JSON.stringify(listings, 0, 2));
-//     });
-// });
+app.get('/api/listings/', (req, res) => {
+  Helpers.listingModel.find()
+    .then((listings) => {
+      res.header('Content-Type', 'application/json');
+      res.send(JSON.stringify(listings, 0, 2));
+    });
+});
 // app.get('/api/listings/:id', (req, res) => {
 //   Helpers.listingModel.find({ id: req.params.id })
 //     .then((listings) => {
@@ -40,7 +40,7 @@ app.use('/listings/:id', express.static(path.join(__dirname, '..', 'client', 'di
 //     });
 // });
 
-app.get('/api/:id', (req, res) => {
+app.get('/api/listings/:id', (req, res) => {
   pool.connect((err, client, done) => {
     if (err) {
       console.log(err);
@@ -50,7 +50,9 @@ app.get('/api/:id', (req, res) => {
         if (err) {
           process.exit(-1);
         } else {
-          res.send(success.rows);
+          res.header('Content-Type', 'application/json');
+          let post = format(success.rows);
+          res.send(JSON.stringify(post, 0, 2));
           client.release();
         }
       });
@@ -62,5 +64,19 @@ app.get('/api/:id', (req, res) => {
   // some connect function (query, callback)
   //callback = (err, result) => {if(err)}{console.log(err)} else {console.log(result)}}
 });
+
+const format = (post) => {
+  let result = [];
+  let info = {};
+  info.fees = {};
+  info.fees.pernight = post[0].feepernight;
+  info.fees.cleaning = post[0].feecleaning;
+  info.fees.service = post[0].feeservice;
+  info.id = post[0].id;
+  info.owner = post[0].owner;
+  info.reserved = [];
+  result.push(info);
+  return result;
+};
 
 module.exports = app;

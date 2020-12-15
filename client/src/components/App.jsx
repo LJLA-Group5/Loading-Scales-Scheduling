@@ -21,8 +21,9 @@ function App() {
   const [focusedDate, setFocusedDate] = useState(undefined);
   function getListingData() {
     const listingID = window.location.pathname.split('/')[1];
-    return axios.get(`/api/listings/${isNaN(listingID) ? 0 : listingID}`)
+    return axios.get(`/api/listings/${isNaN(listingID) ? 1 : listingID}`)
       .then((response) => {
+        console.log(response.data);
         setListingData(response.data);
       })
       .catch((err) => {

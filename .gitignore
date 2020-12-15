@@ -31,5 +31,5 @@ globalConfig.json
 data/
 *.csv
 .env
-.newrelic.js
-.newrelic
+SDC_KEY.pem
+
