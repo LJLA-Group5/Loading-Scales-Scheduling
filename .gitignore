@@ -27,3 +27,9 @@ build/
 db/jsons/
 package-lock.json
 globalConfig.json
+
+data/
+*.csv
+.env
+SDC_KEY.pem
+
