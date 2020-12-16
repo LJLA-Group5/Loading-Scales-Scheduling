@@ -75,3 +75,15 @@ SELECT *
 
 
 --SELECT count(*) AS exact_count FROM users; gets numbers of rows in table
+
+
+ALTER TABLE listings ADD CONSTRAINT owner_fk FOREIGN KEY (owner) REFERENCES users(id) ON DELETE CASCADE NOT VALID;
+ALTER TABLE reservations ADD CONSTRAINT listing_id_fk FOREIGN KEY (listing_id) REFERENCES listings(id) ON DELETE CASCADE NOT VALID;
+ALTER TABLE reservations ADD CONSTRAINT user_id_fk FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE NOT VALID;
+
+CREATE INDEX owner_idx ON listings(owner);
+CREATE INDEX listing_idx ON reservations(listing_id);
+
+   ALTER TABLE users ADD COLUMN id SERIAL PRIMARY KEY;
+      ALTER TABLE listings ADD COLUMN id SERIAL PRIMARY KEY;
+       ALTER TABLE reservations ADD COLUMN id SERIAL PRIMARY KEY;
