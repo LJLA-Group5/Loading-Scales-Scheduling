@@ -20,7 +20,7 @@ function App() {
   const [checkingDatesSet, setCheckingDatesSet] = useState(false);
   const [focusedDate, setFocusedDate] = useState(undefined);
   function getListingData() {
-    const listingID = window.location.pathname.split('/')[1];
+    const listingID = window.location.pathname.split('/')[2];
     return axios.get(`/api/listings/${listingID}`)
       .then((response) => {
         console.log(response.data);
