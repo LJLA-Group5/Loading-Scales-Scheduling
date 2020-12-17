@@ -25,13 +25,13 @@ app.use(morgan('dev'));
 app.use('/', express.json());
 app.use('/listings/:id', express.static(path.join(__dirname, '..', 'client', 'dist')));
 
-// app.get('/api/listings/', (req, res) => {
-//   Helpers.listingModel.find()
-//     .then((listings) => {
-//       res.header('Content-Type', 'application/json');
-//       res.send(JSON.stringify(listings, 0, 2));
-//     });
-// });
+app.get('/api/listings/', (req, res) => {
+  Helpers.listingModel.find()
+    .then((listings) => {
+      res.header('Content-Type', 'application/json');
+      res.send(JSON.stringify(listings, 0, 2));
+    });
+});
 // app.get('/api/listings/:id', (req, res) => {
 //   Helpers.listingModel.find({ id: req.params.id })
 //     .then((listings) => {
@@ -45,9 +45,11 @@ app.get('/api/listings/:id', (req, res) => {
     if (err) {
       console.log(err);
     } else {
+      console.log('connected to db')
       const query = (`SELECT listings.*, reservations.checkindate, reservations.checkoutdate FROM listings INNER JOIN reservations ON (listings.id=reservations.listing_id) WHERE listings.id=${req.params.id}`);
-      client.query(query, (err, success) => {
+      pool.query(query, (err, success) => {
         if (err) {
+          console.log('err')
           process.exit(-1);
         } else {
           res.header('Content-Type', 'application/json');
